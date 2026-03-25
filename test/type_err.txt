@@ -1,0 +1,13 @@
+int a;
+float a;
+1 . "ahoj";
+
+string b;
+b = "svete"
+a + b;
+
+string c;
+c = "ahoj" . b
+
+12 + ("ahoj" . "svete");
+

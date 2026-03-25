@@ -56,49 +56,68 @@ class Transformer(PJPVisitor):
         left = self.visit(ctx.getChild(0))
         op = str(ctx.getChild(1))
         right = self.visit(ctx.getChild(2))
-        return expr.Bin(op, left, right)
+        return op, left, right
 
     def visit_una(self, ctx: PJPParser.ExprContext):
         op = str(ctx.getChild(0))
         e = self.visit(ctx.getChild(1))
-        return expr.Una(op, e)
-
-    def visitAdd(self, ctx:PJPParser.AddContext):
-        return self.visit_bin(ctx) 
-
-    def visitSub(self, ctx:PJPParser.SubContext):
-        return self.visit_bin(ctx) 
+        return op, e
 
     def visitMod(self, ctx:PJPParser.ModContext):
-        return self.visit_bin(ctx) 
+        op, left, right = self.visit_bin(ctx)
+        return expr.Ari(op, left, right)
 
-    def visitGrp(self, ctx:PJPParser.GrpContext):
-        return self.visit_bin(ctx) 
+    def visitAdd(self, ctx:PJPParser.AddContext):
+        op, left, right = self.visit_bin(ctx)
+        return expr.Ari(op, left, right)
+
+    def visitSub(self, ctx:PJPParser.SubContext):
+        op, left, right = self.visit_bin(ctx)
+        return expr.Ari(op, left, right)
 
     def visitMul(self, ctx:PJPParser.MulContext):
-        return self.visit_bin(ctx) 
+        op, left, right = self.visit_bin(ctx)
+        return expr.Ari(op, left, right)
+
+    def visitDiv(self, ctx:PJPParser.DivContext):
+        op, left, right = self.visit_bin(ctx)
+        return expr.Ari(op, left, right)
+
+    def visitRel(self, ctx:PJPParser.RelContext):
+        op, left, right = self.visit_bin(ctx)
+        return expr.Rel(op, left, right)
 
     def visitLogOr(self, ctx:PJPParser.LogOrContext):
-        return self.visit_bin(ctx) 
+        op, left, right = self.visit_bin(ctx)
+        return expr.Log(op, left, right)
 
     def visitLogAnd(self, ctx:PJPParser.LogAndContext):
-        return self.visit_bin(ctx) 
+        op, left, right = self.visit_bin(ctx)
+        return expr.Log(op, left, right)
+
+    def visitComp(self, ctx:PJPParser.CompContext):
+        op, left, right = self.visit_bin(ctx)
+        return expr.Comp(op, left, right)
+
+    def visitConcat(self, ctx:PJPParser.ConcatContext):
+        op, left, right = self.visit_bin(ctx)
+        return expr.Concat(op, left, right)
+
+    def visitLogNeg(self, ctx:PJPParser.LogNegContext):
+        op, ex = self.visit_una(ctx)
+        return expr.Una(op, ex)
+
+    def visitAriNeg(self, ctx:PJPParser.AriNegContext):
+        op, ex = self.visit_una(ctx)
+        return expr.Una(op, ex)
+
+    def visitGrp(self, ctx:PJPParser.GrpContext):
+        ex = self.visit(ctx.getChild(1))
+        return expr.Grp(ex)
 
     def visitVar(self, ctx:PJPParser.VarContext):
         id = str(ctx.getChild(0))
         return expr.Var(id)
-
-    def visitComp(self, ctx:PJPParser.CompContext):
-        return self.visit_bin(ctx)
-
-    def visitLogNeg(self, ctx:PJPParser.LogNegContext):
-        return self.visit_una(ctx)
-
-    def visitDiv(self, ctx:PJPParser.DivContext):
-        return self.visit_bin(ctx)
-
-    def visitConcat(self, ctx:PJPParser.ConcatContext):
-        return self.visit_bin(ctx)
 
     def visitInt(self, ctx:PJPParser.IntContext):
         val = int(str(ctx.getChild(0)))
@@ -115,12 +134,6 @@ class Transformer(PJPVisitor):
     def visitStr(self, ctx:PJPParser.StrContext):
         val = str(ctx.getChild(0))
         return expr.Lit(val)
-
-    def visitRel(self, ctx:PJPParser.RelContext):
-        return self.visit_bin(ctx)
-
-    def visitAriNeg(self, ctx:PJPParser.AriNegContext):
-        return self.visit_una(ctx)
 
     def visitAssign(self, ctx:PJPParser.AssignContext):
         id = str(ctx.getChild(0))

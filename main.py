@@ -5,7 +5,8 @@ import antlr4
 from antlr.PJPLexer import PJPLexer
 from antlr.PJPParser import PJPParser
 
-from transformer import Transformer
+from trans import Transformer
+from check import Checker
 
 input_text = ""
 
@@ -19,6 +20,7 @@ else:
 
 print("INPUT:")
 print(input_text)
+print()
 
 lexer = PJPLexer(antlr4.InputStream(input_text))
 stream = antlr4.CommonTokenStream(lexer)
@@ -28,11 +30,21 @@ tree = parser.prog()
 
 print("PARSED INPUT:")
 print(tree.toStringTree(recog=parser))
+print()
 
-transformer = Transformer()  
+trans = Transformer()  
 
-ast = transformer.visit(tree)
+ast = trans.visit(tree)
 
 print("AST:")
 pprint(ast)
+print()
+
+checker = Checker()
+errors = checker.type_check(ast)
+
+print("TYPE CHECK:")
+print("\n".join(errors))
+print()
+
 
