@@ -60,8 +60,9 @@ class Evaluator:
 
         pprint(list(enumerate(cmds)))
 
-        self.jmp_indices = { int(c[len('label'):]): inst_num for inst_num,c in [ (inst_num,c) for inst_num,c in enumerate(cmds) if c.startswith('label') ] }
-        # self.jmp_indices = {i:j for i,j in enumerate(i for i,c in enumerate(cmds) if c.startswith('label'))}
+        self.jmp_indices = { int(c[len('label'):]) : inst_num 
+                                for inst_num,c 
+                                in [ (inst_num,c) for inst_num,c in enumerate(cmds) if c.startswith('label') ] }
 
         print("PRINT INDICES:")
         pprint(self.jmp_indices)
@@ -185,7 +186,6 @@ class Evaluator:
         if a == False:
             _, n = cmd.split()
             new = self.jmp_indices[int(n)]
-            # print(f"FJMP to {new}")
             self.idx = new 
 
     def print(self, cmd):
