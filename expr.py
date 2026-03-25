@@ -1,8 +1,24 @@
-from typing import Union
+from typing import Literal, Union
 from dataclasses import dataclass
 
+Type = Literal['int', 'float', 'string', 'bool', None]
+
+def type_of_val(v):
+    if isinstance(v, bool):
+        return 'bool'
+    elif isinstance(v, int):
+        return 'int'
+    elif isinstance(v, float):
+        return 'float'
+    elif isinstance(v, str):
+        return 'string'
+    return None
+
+
 class Expr:
-    pass
+    type: Type
+    def __init__(self):
+        self.type = None
 
 @dataclass
 class Grp(Expr):
@@ -56,5 +72,4 @@ class Lit(Expr):
 @dataclass
 class Var(Expr):
     id: str
-
 

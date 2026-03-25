@@ -3,14 +3,13 @@ import expr
 from stmt import *
 import stmt
 
-Type = Literal['int', 'float', 'string', 'bool', None]
 
-def is_num_type(t: Type):
+def is_num_type(t: expr.Type):
     return t in ['int', 'float']
 
 
 class Checker():
-    vars: dict[str, Type] = {}  # id, type
+    vars: dict[str, expr.Type] = {}  # id, type
     errs = []
 
     def type_check(self, prog: list[Stmt]):
@@ -54,7 +53,7 @@ class Checker():
                 self.check_stmt(st.body)
 
 
-    def check_expr(self, ex: Expr) -> Type:
+    def check_expr(self, ex: expr.Expr) -> expr.Type:
         match ex:
             case expr.Grp():
                 return self.check_expr(ex.expr)
@@ -90,7 +89,6 @@ class Checker():
             case expr.Concat():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
-                print('concat', lt, rt)
                 if rt != lt != 'string':
                     self.errs.append("Concat can be performed only on strings.")
                     return None;
@@ -105,26 +103,19 @@ class Checker():
                 return lt
 
             case expr.Assign():
+                if ex.id not in self.vars:
+                    self.errs.append(f"Can't assign to var '{ex.id}' as it was never declared.")
+                    return None
                 lt = self.vars[ex.id]
                 rt = self.check_expr(ex.expr)
-                if rt != lt:
+                if not ( lt == 'float' and rt == 'int' ) and rt != lt:
                     self.errs.append(f"Can't assign expr of type '{rt}' to var '{ex.id}' of type '{lt}'.")
                     return None
                 return lt
 
             case expr.Lit():
                 v = ex.val
-
-                if isinstance(v, bool):
-                    return 'bool'
-                elif isinstance(v, int):
-                    return 'int'
-                elif isinstance(v, float):
-                    return 'float'
-                elif isinstance(v, str):
-                    return 'string'
-
-                return None
+                return expr.type_of_val(v)
 
             case expr.Var():
                 return self.vars[ex.id]

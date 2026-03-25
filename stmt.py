@@ -1,18 +1,17 @@
 from typing import Optional
-from expr import Expr
 from dataclasses import dataclass
-
+import expr
 
 class Stmt:
     pass
 
 @dataclass
 class ExprStmt(Stmt):
-    expr: Expr
+    expr: expr.Expr
 
 @dataclass
 class Decl(Stmt):
-    type: str
+    type: expr.Type
     ids: list[str]
 
 @dataclass
@@ -21,7 +20,7 @@ class Read(Stmt):
 
 @dataclass
 class Write(Stmt):
-    exprs: list[Expr]
+    exprs: list[expr.Expr]
 
 @dataclass
 class Block(Stmt):
@@ -29,13 +28,13 @@ class Block(Stmt):
 
 @dataclass
 class Cond(Stmt):
-    expr: Expr
+    expr: expr.Expr
     then: Stmt
     otherwise: Optional[Stmt]
 
 @dataclass
 class Cycle(Stmt):
-    expr: Expr
+    expr: expr.Expr
     body: Stmt
 
 

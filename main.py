@@ -7,6 +7,7 @@ from antlr.PJPParser import PJPParser
 
 from trans import Transformer
 from check import Checker
+from gen import Generator
 
 input_text = ""
 
@@ -47,4 +48,16 @@ print("TYPE CHECK:")
 print("\n".join(errors))
 print()
 
+if len(errors) != 0:
+    sys.exit()
+
+gen = Generator()
+out = gen.gen(ast)
+
+print("GENERATED:")
+print(out)
+print()
+
+with open("OUT.txt", "w+") as f:
+    f.write(out)
 

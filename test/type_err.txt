@@ -10,4 +10,5 @@ string c;
 c = "ahoj" . b
 
 12 + ("ahoj" . "svete");
+(12 + 34 + 45 * 56 -  43 / 43) + ("ahoj" . "svete");
 

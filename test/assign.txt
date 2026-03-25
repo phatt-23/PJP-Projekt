@@ -1,0 +1,9 @@
+string a;
+a = "ahoj";
+
+string b;
+b = a . "svete";
+
+string c;
+
+c = a = b;
