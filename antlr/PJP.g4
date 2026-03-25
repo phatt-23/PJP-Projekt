@@ -7,7 +7,7 @@ stmt: ';'                                   # Empty
     | expr ';'                              # ExprStmt
     | TYPE ID (',' ID)* ';'                 # Decl
     | 'read' ID (',' ID)* ';'               # Read
-    | 'write' expr (',' expr)* ';'          # Write
+    | 'write' expr ((',' | '..') expr)* ';'          # Write
     | '{' stmt* '}'                         # Block
     | 'if' '(' expr ')' stmt ('else' stmt)? # Cond
     | 'while' '(' expr ')' stmt             # Cycle
@@ -38,7 +38,7 @@ TYPE    : 'int' | 'float' | 'bool' | 'string' ;
 INT     : '0' | [1-9][0-9]* ;
 FLOAT   : [0-9]+ '.' [0-9]+ ;
 BOOL    : 'true' | 'false' ;
-STRING  : '"' ~["]* '"' ;
+STRING  : '"' ~["]* '"' | '\'' ~[']* '\'' ;
 ID      : [a-zA-Z][a-zA-Z_0-9]* ;
 WS      : [ \t\r\n]+ -> skip ;
 COMMENT : '//' ~('\r' | '\n')* -> skip ;

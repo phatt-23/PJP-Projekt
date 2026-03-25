@@ -5,6 +5,7 @@ import antlr4
 from antlr.PJPLexer import PJPLexer
 from antlr.PJPParser import PJPParser
 
+from eval import Evaluator
 from trans import Transformer
 from check import Checker
 from gen import Generator
@@ -60,4 +61,8 @@ print()
 
 with open("OUT.txt", "w+") as f:
     f.write(out)
+
+print("EVALING:")
+evaluator = Evaluator()
+evaluator.eval(out)
 

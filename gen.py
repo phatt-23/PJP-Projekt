@@ -28,15 +28,15 @@ class Generator:
     def fmt_type(self, t: Type):
         match t:
             case 'int':
-                return 'INT'
+                return 'I'
             case 'float':
-                return 'FLOAT'
+                return 'F'
             case 'string':
-                return 'STR'
+                return 'S'
             case 'bool':
-                return 'BOOL'
+                return 'B'
             case None:
-                return 'NONE'
+                return 'N'
 
     def top_type(self):
         return self.fmt_type(self.stack[-1])
@@ -69,6 +69,10 @@ class Generator:
 
     def POP(self):
         self.write('pop')
+        self.stack_pop()
+        
+    def FJMP(self, n):
+        self.write(f'fjmp {n}')
         self.stack_pop()
 
     # generate stmt and expr
@@ -120,13 +124,18 @@ class Generator:
                     self.gen_stmt(st)
 
             case Cond():
+                otherwise = self.label_count
+                end = self.label_count + 1
+                self.label_count += 2
+
                 self.gen_expr(stmt.expr)
-                self.write(f'fjmp {self.label_count}')
+                self.FJMP(otherwise)
                 self.gen_stmt(stmt.then)
-                self.write(f'label {self.label_count}')
-                self.label_count += 1
+                self.write(f'jmp {end}')
+                self.write(f'label {otherwise}')
                 if stmt.otherwise:
                     self.gen_stmt(stmt.otherwise)
+                self.write(f'label {end}')
 
             case Cycle():
                 start = self.label_count
@@ -135,7 +144,7 @@ class Generator:
 
                 self.write(f'label {start}')
                 self.gen_expr(stmt.expr)
-                self.write(f'fjmp {out}')
+                self.FJMP(out)
                 self.gen_stmt(stmt.body)
                 self.write(f'jmp {start}')
                 self.write(f'label {out}')
@@ -169,10 +178,6 @@ class Generator:
                         self.write(f'div {self.top_type()}')
                     case '*':
                         self.write(f'mul {self.top_type()}')
-                    case '%':
-                        self.write(f'mod')
-                    case '.':
-                        self.write(f'cat')
                     case '<':
                         self.write(f'lt {self.top_type()}')
                     case '>':
@@ -182,6 +187,15 @@ class Generator:
                     case '!=':
                         self.write(f'eq {self.top_type()}')
                         self.write('not')
+                    case '&&':
+                        self.write(f'and')
+                    case '||':
+                        self.write(f'or')
+                    case '%':
+                        self.write(f'mod')
+                    case '.':
+                        self.write(f'cat')
+
                 t = self.stack[-1]
                 self.stack_pop()
                 self.stack_pop()

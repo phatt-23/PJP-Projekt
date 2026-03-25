@@ -1,157 +1,147 @@
 
-; Cond(expr=Rel(op='<', left=Lit(val=3), right=Lit(val=4)),
-;      then=Write(exprs=[Lit(val='"condition was true"')]),
-;      otherwise=Write(exprs=[Lit(val='"condition was false"')]))
+; Write(exprs=[Lit(val='"hello"'), Lit(val='", "'), Lit(val='"world"')])
 
-push INT 3
-push INT 4
-lt INT
-fjmp 0
+push S "hello"
+push S ", "
+push S "world"
+print 3
 
-; Write(exprs=[Lit(val='"condition was true"')])
+; Decl(type='int', ids=['c'])
 
-push STR "condition was true"
-print 1
-pop
-label 0
+push I 0
+save c
 
-; Write(exprs=[Lit(val='"condition was false"')])
+; ExprStmt(expr=Assign(id='c', expr=Lit(val=10)))
 
-push STR "condition was false"
-print 1
-
-; Cond(expr=Lit(val=True),
-;      then=Block(stmts=[Write(exprs=[Lit(val='"inside"')]),
-;                        Write(exprs=[Lit(val='"second"')]),
-;                        Write(exprs=[Lit(val='"if"')])]),
-;      otherwise=None)
-
-push BOOL True
-fjmp 1
-
-; Block(stmts=[Write(exprs=[Lit(val='"inside"')]),
-;              Write(exprs=[Lit(val='"second"')]),
-;              Write(exprs=[Lit(val='"if"')])])
-
-
-; Write(exprs=[Lit(val='"inside"')])
-
-push STR "inside"
-print 1
+push I 10
+save c
+load c
 pop
 
-; Write(exprs=[Lit(val='"second"')])
+; Write(exprs=[Var(id='c')])
 
-push STR "second"
+load c
 print 1
 
-; Write(exprs=[Lit(val='"if"')])
+; Decl(type='int', ids=['i'])
 
-push STR "if"
-print 1
-label 1
+push I 0
+save i
 
-; Decl(type='int', ids=['a', 'b'])
+; Decl(type='int', ids=['j'])
 
-push INT 0
-save a
-push INT 0
-save b
+push I 0
+save j
 
-; Cycle(expr=Rel(op='<', left=Var(id='a'), right=Lit(val=10)),
-;       body=Block(stmts=[Write(exprs=[Lit(val='"a="'), Var(id='a')]),
-;                         ExprStmt(expr=Assign(id='a',
+; ExprStmt(expr=Assign(id='i', expr=Lit(val=0)))
+
+push I 0
+save i
+load i
+pop
+
+; Cycle(expr=Rel(op='<', left=Var(id='i'), right=Var(id='c')),
+;       body=Block(stmts=[ExprStmt(expr=Assign(id='j', expr=Lit(val=0))),
+;                         Cycle(expr=Rel(op='<',
+;                                        left=Var(id='j'),
+;                                        right=Var(id='i')),
+;                               body=Block(stmts=[Write(exprs=[Lit(val="'    '"),
+;                                                              Lit(val="'j = '"),
+;                                                              Var(id='j')]),
+;                                                 ExprStmt(expr=Assign(id='j',
+;                                                                      expr=Ari(op='+',
+;                                                                               left=Var(id='j'),
+;                                                                               right=Lit(val=1))))])),
+;                         Write(exprs=[Lit(val="'i = '"), Var(id='i')]),
+;                         ExprStmt(expr=Assign(id='i',
 ;                                              expr=Ari(op='+',
-;                                                       left=Var(id='a'),
+;                                                       left=Var(id='i'),
 ;                                                       right=Lit(val=1))))]))
 
-label 2
-load a
-push INT 10
-lt INT
-fjmp 3
+label 0
+load i
+load c
+lt I
+fjmp 1
 
-; Block(stmts=[Write(exprs=[Lit(val='"a="'), Var(id='a')]),
-;              ExprStmt(expr=Assign(id='a',
+; Block(stmts=[ExprStmt(expr=Assign(id='j', expr=Lit(val=0))),
+;              Cycle(expr=Rel(op='<', left=Var(id='j'), right=Var(id='i')),
+;                    body=Block(stmts=[Write(exprs=[Lit(val="'    '"),
+;                                                   Lit(val="'j = '"),
+;                                                   Var(id='j')]),
+;                                      ExprStmt(expr=Assign(id='j',
+;                                                           expr=Ari(op='+',
+;                                                                    left=Var(id='j'),
+;                                                                    right=Lit(val=1))))])),
+;              Write(exprs=[Lit(val="'i = '"), Var(id='i')]),
+;              ExprStmt(expr=Assign(id='i',
 ;                                   expr=Ari(op='+',
-;                                            left=Var(id='a'),
+;                                            left=Var(id='i'),
 ;                                            right=Lit(val=1))))])
 
 
-; Write(exprs=[Lit(val='"a="'), Var(id='a')])
+; ExprStmt(expr=Assign(id='j', expr=Lit(val=0)))
 
-push STR "a="
-load a
-print 2
+push I 0
+save j
+load j
 pop
 
-; ExprStmt(expr=Assign(id='a',
-;                      expr=Ari(op='+', left=Var(id='a'), right=Lit(val=1))))
+; Cycle(expr=Rel(op='<', left=Var(id='j'), right=Var(id='i')),
+;       body=Block(stmts=[Write(exprs=[Lit(val="'    '"),
+;                                      Lit(val="'j = '"),
+;                                      Var(id='j')]),
+;                         ExprStmt(expr=Assign(id='j',
+;                                              expr=Ari(op='+',
+;                                                       left=Var(id='j'),
+;                                                       right=Lit(val=1))))]))
 
-load a
-push INT 1
-add INT
-save a
-load a
+label 2
+load j
+load i
+lt I
+fjmp 3
+
+; Block(stmts=[Write(exprs=[Lit(val="'    '"), Lit(val="'j = '"), Var(id='j')]),
+;              ExprStmt(expr=Assign(id='j',
+;                                   expr=Ari(op='+',
+;                                            left=Var(id='j'),
+;                                            right=Lit(val=1))))])
+
+
+; Write(exprs=[Lit(val="'    '"), Lit(val="'j = '"), Var(id='j')])
+
+push S '    '
+push S 'j = '
+load j
+print 3
+
+; ExprStmt(expr=Assign(id='j',
+;                      expr=Ari(op='+', left=Var(id='j'), right=Lit(val=1))))
+
+load j
+push I 1
+add I
+save j
+load j
 pop
 jmp 2
 label 3
 
-; ExprStmt(expr=Assign(id='a', expr=Lit(val=0)))
+; Write(exprs=[Lit(val="'i = '"), Var(id='i')])
 
-push INT 0
-save a
-load a
+push S 'i = '
+load i
+print 2
+
+; ExprStmt(expr=Assign(id='i',
+;                      expr=Ari(op='+', left=Var(id='i'), right=Lit(val=1))))
+
+load i
+push I 1
+add I
+save i
+load i
 pop
-
-; Read(ids=['b'])
-
-read INT
-save b
-
-; Cycle(expr=Rel(op='<', left=Var(id='a'), right=Var(id='b')),
-;       body=Block(stmts=[Write(exprs=[Lit(val='"a="'),
-;                                      Var(id='a'),
-;                                      Lit(val='", b="'),
-;                                      Var(id='b')]),
-;                         ExprStmt(expr=Assign(id='a',
-;                                              expr=Ari(op='+',
-;                                                       left=Var(id='a'),
-;                                                       right=Lit(val=1))))]))
-
-label 4
-load a
-load b
-lt INT
-fjmp 5
-
-; Block(stmts=[Write(exprs=[Lit(val='"a="'),
-;                           Var(id='a'),
-;                           Lit(val='", b="'),
-;                           Var(id='b')]),
-;              ExprStmt(expr=Assign(id='a',
-;                                   expr=Ari(op='+',
-;                                            left=Var(id='a'),
-;                                            right=Lit(val=1))))])
-
-
-; Write(exprs=[Lit(val='"a="'), Var(id='a'), Lit(val='", b="'), Var(id='b')])
-
-push STR "a="
-load a
-push STR ", b="
-load b
-print 4
-pop
-
-; ExprStmt(expr=Assign(id='a',
-;                      expr=Ari(op='+', left=Var(id='a'), right=Lit(val=1))))
-
-load a
-push INT 1
-add INT
-save a
-load a
-pop
-jmp 4
-label 5
+jmp 0
+label 1

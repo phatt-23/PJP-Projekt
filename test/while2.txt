@@ -1,0 +1,26 @@
+write "hello" .. ", " .. "world";
+
+int c;
+c = 10;
+
+write c;
+
+int i;
+int j;
+
+i = 0;
+
+while (i < c)
+{
+    j = 0;
+
+    while (j < i)
+    {
+        write '    ' .. 'j = ' .. j ;
+        j = j + 1;
+    }
+
+    write 'i = ' .. i;
+
+    i = i + 1;
+}

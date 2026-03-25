@@ -118,6 +118,9 @@ class Checker():
                 return expr.type_of_val(v)
 
             case expr.Var():
+                if ex.id not in self.vars:
+                    self.errs.append(f"Var '{ex.id}' wasn't declared yet.")
+                    return None
                 return self.vars[ex.id]
 
         return None

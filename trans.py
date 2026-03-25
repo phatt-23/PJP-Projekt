@@ -25,9 +25,9 @@ class Transformer(PJPVisitor):
         return stmt.ExprStmt(expr)
 
     def visitDecl(self, ctx:PJPParser.DeclContext):
-        type = str(ctx.getChild(0))
+        typ = str(ctx.getChild(0))
         ids = [str(ctx.getChild(i)) for i in range(1, ctx.getChildCount(), 2)]
-        return stmt.Decl(type, ids)
+        return stmt.Decl(typ, ids)
 
     def visitRead(self, ctx:PJPParser.ReadContext):
         ids = [str(ctx.getChild(i)) for i in range(1, ctx.getChildCount(), 2)]

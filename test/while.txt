@@ -1,0 +1,18 @@
+int a, b;
+
+while (a < 10) 
+{
+    write "a=", a;
+    a = a + 1;
+}
+
+a = 0;
+
+read b;
+
+while (a < b) 
+{
+    write "a=", a, ", b=", b;
+    a = a + 1;
+}
+
