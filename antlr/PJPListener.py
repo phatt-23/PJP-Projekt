@@ -37,7 +37,6 @@ class PJPListener(ParseTreeListener):
 
     # Enter a parse tree produced by PJPParser#Decl.
     def enterDecl(self, ctx:PJPParser.DeclContext):
-        print('decl')
         pass
 
     # Exit a parse tree produced by PJPParser#Decl.
@@ -144,21 +143,21 @@ class PJPListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PJPParser#LitExpr.
-    def enterLitExpr(self, ctx:PJPParser.LitExprContext):
-        pass
-
-    # Exit a parse tree produced by PJPParser#LitExpr.
-    def exitLitExpr(self, ctx:PJPParser.LitExprContext):
-        pass
-
-
     # Enter a parse tree produced by PJPParser#Var.
     def enterVar(self, ctx:PJPParser.VarContext):
         pass
 
     # Exit a parse tree produced by PJPParser#Var.
     def exitVar(self, ctx:PJPParser.VarContext):
+        pass
+
+
+    # Enter a parse tree produced by PJPParser#Int.
+    def enterInt(self, ctx:PJPParser.IntContext):
+        pass
+
+    # Exit a parse tree produced by PJPParser#Int.
+    def exitInt(self, ctx:PJPParser.IntContext):
         pass
 
 
@@ -189,6 +188,15 @@ class PJPListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PJPParser#Str.
+    def enterStr(self, ctx:PJPParser.StrContext):
+        pass
+
+    # Exit a parse tree produced by PJPParser#Str.
+    def exitStr(self, ctx:PJPParser.StrContext):
+        pass
+
+
     # Enter a parse tree produced by PJPParser#Div.
     def enterDiv(self, ctx:PJPParser.DivContext):
         pass
@@ -204,6 +212,24 @@ class PJPListener(ParseTreeListener):
 
     # Exit a parse tree produced by PJPParser#Concat.
     def exitConcat(self, ctx:PJPParser.ConcatContext):
+        pass
+
+
+    # Enter a parse tree produced by PJPParser#Float.
+    def enterFloat(self, ctx:PJPParser.FloatContext):
+        pass
+
+    # Exit a parse tree produced by PJPParser#Float.
+    def exitFloat(self, ctx:PJPParser.FloatContext):
+        pass
+
+
+    # Enter a parse tree produced by PJPParser#Bool.
+    def enterBool(self, ctx:PJPParser.BoolContext):
+        pass
+
+    # Exit a parse tree produced by PJPParser#Bool.
+    def exitBool(self, ctx:PJPParser.BoolContext):
         pass
 
 

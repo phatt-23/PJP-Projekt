@@ -1,9 +1,11 @@
-from typing import override
+import sys
+from pprint import pprint
+
 import antlr4
 from antlr.PJPLexer import PJPLexer
-from antlr.PJPListener import PJPListener
 from antlr.PJPParser import PJPParser
-import sys 
+
+from transformer import Transformer
 
 input_text = ""
 
@@ -15,23 +17,22 @@ if len(sys.argv) >= 2:
 else:
     input_text = "".join(sys.stdin.readlines())
 
+print("INPUT:")
+print(input_text)
+
 lexer = PJPLexer(antlr4.InputStream(input_text))
 stream = antlr4.CommonTokenStream(lexer)
 parser = PJPParser(stream)
 
 tree = parser.prog()
+
+print("PARSED INPUT:")
 print(tree.toStringTree(recog=parser))
 
-#
-# class Stmt():
+transformer = Transformer()  
 
-class Transformer(PJPListener):
-    @override
-    def enterDecl(self, ctx: PJPParser.DeclContext):
-        print('enter decl')
+ast = transformer.visit(tree)
 
-listener = Transformer()  
-
-walker = antlr4.ParseTreeWalker()
-walker.walk(listener, tree)
+print("AST:")
+pprint(ast)
 
