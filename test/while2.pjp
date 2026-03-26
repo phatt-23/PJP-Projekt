@@ -16,7 +16,13 @@ while (i < c)
 
     while (j < i)
     {
-        write '    ' .. 'j = ' .. j ;
+        if (j % 2 == 0)
+        {
+            write "  " .. "j := " .. j ;
+        }
+        else    
+            write "    " .. "j = " .. j ;
+
         j = j + 1;
     }
 

@@ -1,0 +1,220 @@
+; write
+push S "<Constants>"
+print 1
+; write
+push S "10: "
+push I 10
+print 2
+; write
+push S " 1.25: "
+push F 1.25
+print 2
+; write
+push S ""
+print 1
+; write
+push S "<Variables>"
+print 1
+; decl
+push S 
+save s
+; expr stmt
+load s
+pop
+; expr stmt
+push S "Abcd"
+save s
+load s
+pop
+; write
+push S "s(Abcd): "
+load s
+print 2
+; decl
+push F 0.0
+save d
+; expr stmt
+push F 3.141592
+save d
+load d
+pop
+; write
+push S "d(3.141592): "
+load d
+print 2
+; decl
+push I 0
+save n
+; expr stmt
+push I 500
+uminus I
+save n
+load n
+pop
+; write
+push S "n(-500): "
+load n
+print 2
+; write
+push S ""
+print 1
+; decl
+push B False
+save boolean
+; expr stmt
+push B True
+save boolean
+load boolean
+pop
+; write
+push S "boolean(true): "
+load boolean
+print 2
+; write
+push S ""
+print 1
+; write
+push S "<Expressions>"
+print 1
+; write
+push S "2+3*5(17): "
+push I 2
+push I 3
+push I 5
+mul I
+add I
+print 2
+; write
+push S "17 / 3(5): "
+push I 17
+push I 3
+div I
+print 2
+; write
+push S "17 % 3(2): "
+push I 17
+push I 3
+mod
+print 2
+; write
+push S "2.5*2.5/6.25(1.0): "
+push F 2.5
+push F 2.5
+push F 6.25
+div F
+mul F
+print 2
+; write
+push S "1.5*3(4.5): "
+push F 1.5
+push I 3
+mul I
+print 2
+; write
+push S "abc+def (abcdef): "
+push S "abc"
+push S "def"
+cat
+print 2
+; write
+push S ""
+print 1
+; write
+push S "<Comments>"
+print 1
+; write
+push S "<Automatic int conversion>"
+print 1
+; decl
+push F 0.0
+save y
+; expr stmt
+push I 10
+save y
+load y
+pop
+; write
+push S "y (10.0): "
+load y
+print 2
+; write
+push S "<Multiple Assignments>"
+print 1
+; decl
+push I 0
+save i
+push I 0
+save j
+push I 0
+save k
+; expr stmt
+push I 55
+save k
+load k
+save j
+load j
+save i
+load i
+pop
+; write
+push S "i=j=k=55: "
+load i
+push S "="
+load j
+push S "="
+load k
+print 6
+; write
+push S "<Input - a(int),b(float),c(string),d(bool)>"
+print 1
+; decl
+push I 0
+save a
+; decl
+push F 0.0
+save b
+; decl
+push S 
+save c
+; decl
+push B False
+save e
+; expr stmt
+push I 0
+save a
+load a
+pop
+; expr stmt
+push F 0.0
+save b
+load b
+pop
+; expr stmt
+push S ""
+save c
+load c
+pop
+; expr stmt
+push B True
+save e
+load e
+pop
+; read
+read I
+save a
+read F
+save b
+read S
+save c
+read B
+save e
+; write
+push S "a,b,c,e: "
+load a
+push S ","
+load b
+push S ","
+load c
+push S ","
+load e
+print 8

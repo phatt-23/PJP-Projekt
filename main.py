@@ -5,15 +5,17 @@ import antlr4
 from antlr.PJPLexer import PJPLexer
 from antlr.PJPParser import PJPParser
 
-from eval import Evaluator
 from trans import Transformer
 from check import Checker
 from gen import Generator
 
+GEN_DIR = "./gen/"
+
 input_text = ""
+using_file = len(sys.argv) >= 2
 
 # get the input text from a file or stdin
-if len(sys.argv) >= 2:
+if using_file:
     file = sys.argv[1]
     with open(file) as f:
         input_text = f.read()
@@ -59,10 +61,11 @@ print("GENERATED:")
 print(out)
 print()
 
-with open("OUT.txt", "w+") as f:
-    f.write(out)
-
-print("EVALING:")
-evaluator = Evaluator()
-evaluator.eval(out)
+if using_file:
+    file = sys.argv[1]
+    start = max(file.rfind('/'), 0)
+    end = file.rfind('.')
+    gen_file = GEN_DIR + file[start:end] + ".stack"
+    with open(gen_file, 'w+') as f:
+        f.write(out)
 

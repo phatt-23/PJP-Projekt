@@ -52,8 +52,9 @@ class Evaluator:
 
     def eval(self, input: str):
         cmds = [
-            line for line in input.splitlines()
-            if not line.strip().startswith(';') and line.strip()
+            line.strip(' \t')
+            for line in input.splitlines()
+            if not line.strip(' \t').startswith(';') and line.strip()
         ]
 
         self.cmds = cmds
@@ -197,13 +198,9 @@ class Evaluator:
     def read(self, cmd):
         _, typ = cmd.split()
 
-        inp_text = ''
-
-        try:
-            inp_text = sys.stdin.readline()
-            print(f'YOU WROTE {inp_text}')
-        except:
-            pass
+        print(f'#READ {typ}#')
+        inp_text = sys.stdin.readline().strip('\n')
+        print(f"#GOT '{inp_text}'#")
 
         val = None
         match typ:
@@ -212,12 +209,27 @@ class Evaluator:
             case 'F':
                 val = float(inp_text) if inp_text else 0.0
             case 'S':
-                val = str(inp_text).strip('\n') if inp_text else ""
+                val = str(inp_text) if inp_text else ""
             case 'B':
                 val = inp_text == 'true'
 
-        print(f'YOU WROTE {inp_text}')
         self.stack.append(val)
 
     
+input_text = ""
+using_file = len(sys.argv) >= 2
+
+# get the input text from a file or stdin
+if using_file:
+    file = sys.argv[1]
+    with open(file) as f:
+        input_text = f.read()
+else:
+    input_text = "".join(sys.stdin.readlines())
+
+print('#EVALING#')
+evaluator = Evaluator()
+evaluator.eval(input_text)
+print('#END#')
+
 

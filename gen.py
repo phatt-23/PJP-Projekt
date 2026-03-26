@@ -8,12 +8,17 @@ class Generator:
     stack: list[Type]
     vars: dict[str, Type]
     label_count: int
+    curr_depth: int
+
+    INCLUDE_COMMENTS = True
+    INCLUDE_STMT_COMMENTS = False
 
     def __init__(self):
         self.text = ''
         self.vars = {}
         self.stack = []
         self.label_count = 0
+        self.curr_depth = -1
 
 
     # utils
@@ -41,9 +46,18 @@ class Generator:
     def top_type(self):
         return self.fmt_type(self.stack[-1])
 
-    def write(self, text=''):
-        # self.text += f"(stack: {len(self.stack)}) {text} \n";
+    def write(self, text='', comment=False):
+        if comment and not self.INCLUDE_COMMENTS:
+            return
+
+        indent = '\t' * self.curr_depth
+        if comment:
+            indent = f'{indent}; ' 
+        
+        text = "\n".join([indent + line for line in text.splitlines()])
+
         self.text += f"{text}\n";
+
 
     # stack commands
 
@@ -84,17 +98,22 @@ class Generator:
         return self.text
 
     def gen_stmt(self, stmt: Stmt):
-        stmt_comment = "\n".join(['; ' + line for line in pformat(stmt).splitlines()])
+        self.curr_depth += 1
 
-        self.write()
-        self.write(stmt_comment)
-        self.write()
+        if self.INCLUDE_STMT_COMMENTS:
+            self.write(comment=True)
+            self.write(pformat(stmt), comment=True)
+            self.write(comment=True)
 
         match stmt:
             case ExprStmt():
+                self.write('expr stmt', comment=True)
+
                 self.gen_expr(stmt.expr)
 
             case Decl():
+                self.write('decl', comment=True)
+
                 for id in stmt.ids:
                     self.vars[id] = stmt.type
 
@@ -110,20 +129,28 @@ class Generator:
                     self.SAVE(id)
 
             case Read():
+                self.write('read', comment=True)
+
                 for id in stmt.ids:
                     self.READ(self.vars[id])
                     self.SAVE(id)
 
             case Write():
+                self.write('write', comment=True)
+
                 for e in stmt.exprs:
                     self.gen_expr(e)
                 self.PRINT(len(stmt.exprs))
 
             case Block():
+                self.write('block', comment=True)
+
                 for st in stmt.stmts:
                     self.gen_stmt(st)
 
             case Cond():
+                self.write('cond', comment=True)
+
                 otherwise = self.label_count
                 end = self.label_count + 1
                 self.label_count += 2
@@ -138,6 +165,8 @@ class Generator:
                 self.write(f'label {end}')
 
             case Cycle():
+                self.write('cycle', comment=True)
+
                 start = self.label_count
                 out = self.label_count + 1
                 self.label_count += 2
@@ -151,6 +180,8 @@ class Generator:
 
         while len(self.stack) > 0:
             self.POP()
+
+        self.curr_depth -= 1
 
     def gen_expr(self, expr: Expr):
 
@@ -211,3 +242,4 @@ class Generator:
 
             case Var():
                 self.LOAD(expr.id)
+

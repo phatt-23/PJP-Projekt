@@ -1,0 +1,89 @@
+; write
+push S "hello"
+push S ", "
+push S "world"
+print 3
+; decl
+push I 0
+save c
+; expr stmt
+push I 10
+save c
+load c
+pop
+; write
+load c
+print 1
+; decl
+push I 0
+save i
+; decl
+push I 0
+save j
+; expr stmt
+push I 0
+save i
+load i
+pop
+; cycle
+label 0
+load i
+load c
+lt I
+fjmp 1
+	; block
+		; expr stmt
+		push I 0
+		save j
+		load j
+		pop
+		; cycle
+		label 2
+		load j
+		load i
+		lt I
+		fjmp 3
+			; block
+				; cond
+				load j
+				push I 2
+				mod
+				push I 0
+				eq I
+				fjmp 4
+					; block
+						; write
+						push S "  "
+						push S "j := "
+						load j
+						print 3
+				jmp 5
+				label 4
+					; write
+					push S "    "
+					push S "j = "
+					load j
+					print 3
+				label 5
+				; expr stmt
+				load j
+				push I 1
+				add I
+				save j
+				load j
+				pop
+		jmp 2
+		label 3
+		; write
+		push S 'i = '
+		load i
+		print 2
+		; expr stmt
+		load i
+		push I 1
+		add I
+		save i
+		load i
+		pop
+jmp 0
+label 1
