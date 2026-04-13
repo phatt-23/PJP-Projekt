@@ -10,6 +10,7 @@ def is_num_type(t: expr.Type):
 
 class Checker():
     vars: dict[str, expr.Type] = {}  # id, type
+    var_decl_loc: dict[str, Loc] = {}
     errs = []
 
     def type_check(self, prog: list[Stmt]):
@@ -26,11 +27,10 @@ class Checker():
             case stmt.Decl(type=t, ids=ids):
                 for id in ids:
                     if id in self.vars:
-                        # if t != self.vars[id]:
-                        #     self.errs.append(f"{st.location()} Tried to decl var '{id}' with type '{t}' but it's already declared with type of '{self.vars[id]}'.")
-                        self.errs.append(f"{st.loc} Var '{id}' is already declared.")
+                        self.errs.append(f"{st.loc} Var '{id}' is already declared at {self.var_decl_loc[id]}")
                     else:
                         self.vars[id] = t
+                        self.var_decl_loc[id] = st.loc
 
             case stmt.Read():
                 pass
@@ -46,7 +46,7 @@ class Checker():
             case stmt.Cond():
                 t = self.check_expr(st.expr)
                 if t != 'bool':
-                    self.errs.append(f"{st.loc} Expected a boolean expression.")
+                    self.errs.append(f"{st.expr.loc} Expected a boolean expression. Got {t}")
                 self.check_stmt(st.then)
                 if st.otherwise != None:
                     self.check_stmt(st.otherwise) 
@@ -54,7 +54,7 @@ class Checker():
             case stmt.Cycle():
                 t = self.check_expr(st.expr)
                 if t != 'bool':
-                    self.errs.append(f"{st.loc} Expected a boolean expression.")
+                    self.errs.append(f"{st.expr.loc} Expected a boolean expression. Got {t}")
                 self.check_stmt(st.body)
 
 
@@ -70,7 +70,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if not is_num_type(lt) or not is_num_type(rt):
-                    self.errs.append(f"{ex.loc} Arithmetic op can only be performed on numbers.")
+                    self.errs.append(f"{ex.loc} Arithmetic op can only be performed on numbers. Here {lt} x {rt}")
                     return None
                 return 'float' if lt == 'float' or rt == 'float' else 'int'
 
@@ -79,7 +79,7 @@ class Checker():
                 rt = self.check_expr(ex.right)
                 allowed = ['int', 'float', 'string']
                 if lt not in allowed or rt not in allowed :
-                    self.errs.append(f"{ex.loc} Rel op can only be performed on numbers and strings.")
+                    self.errs.append(f"{ex.loc} Rel op can only be performed on numbers and strings. Here {lt} x {rt}")
                     return None
                 return lt
 
@@ -87,7 +87,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if lt != rt:
-                    self.errs.append(f"{ex.loc} Comp op can be performed only for the same type.")
+                    self.errs.append(f"{ex.loc} Comp op can be performed only for the same type. Here {lt} x {rt}")
                     return None;
                 return lt
 
@@ -95,7 +95,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if rt != lt != 'string':
-                    self.errs.append(f"{ex.loc} Concat can be performed only on strings.")
+                    self.errs.append(f"{ex.loc} Concat can be performed only on strings. Here {lt} x {rt}")
                     return None;
                 return lt
 
@@ -103,7 +103,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if rt != lt != 'bool':
-                    self.errs.append(f"{ex.loc} Concat can be performed only on bools.")
+                    self.errs.append(f"{ex.loc} Logical op can be performed only on bools. Here {lt} x {rt}")
                     return None
                 return lt
 

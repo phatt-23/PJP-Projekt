@@ -12,4 +12,4 @@ class Loc():
         self.column = column
 
     def __repr__(self):
-        return f"[{self.line}:{self.column}]\t-"
+        return f"[{self.line}:{self.column}]"
