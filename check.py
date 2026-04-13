@@ -26,8 +26,9 @@ class Checker():
             case stmt.Decl(type=t, ids=ids):
                 for id in ids:
                     if id in self.vars:
-                        if t != self.vars[id]:
-                            self.errs.append(f"Tried to decl var '{id}' with type '{t}' but it's already declared with type of '{self.vars[id]}'.")
+                        # if t != self.vars[id]:
+                        #     self.errs.append(f"{st.location()} Tried to decl var '{id}' with type '{t}' but it's already declared with type of '{self.vars[id]}'.")
+                        self.errs.append(f"{st.loc} Var '{id}' is already declared.")
                     else:
                         self.vars[id] = t
 
@@ -43,13 +44,17 @@ class Checker():
                     self.check_stmt(s)
 
             case stmt.Cond():
-                self.check_expr(st.expr)
+                t = self.check_expr(st.expr)
+                if t != 'bool':
+                    self.errs.append(f"{st.loc} Expected a boolean expression.")
                 self.check_stmt(st.then)
                 if st.otherwise != None:
                     self.check_stmt(st.otherwise) 
 
             case stmt.Cycle():
-                self.check_expr(st.expr)
+                t = self.check_expr(st.expr)
+                if t != 'bool':
+                    self.errs.append(f"{st.loc} Expected a boolean expression.")
                 self.check_stmt(st.body)
 
 
@@ -65,7 +70,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if not is_num_type(lt) or not is_num_type(rt):
-                    self.errs.append("Arithmetic op can only be performed on numbers.")
+                    self.errs.append(f"{ex.loc} Arithmetic op can only be performed on numbers.")
                     return None
                 return 'float' if lt == 'float' or rt == 'float' else 'int'
 
@@ -74,7 +79,7 @@ class Checker():
                 rt = self.check_expr(ex.right)
                 allowed = ['int', 'float', 'string']
                 if lt not in allowed or rt not in allowed :
-                    self.errs.append("Rel op can only be performed on numbers and strings.")
+                    self.errs.append(f"{ex.loc} Rel op can only be performed on numbers and strings.")
                     return None
                 return lt
 
@@ -82,7 +87,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if lt != rt:
-                    self.errs.append("Comp op can be performed only for the same type.")
+                    self.errs.append(f"{ex.loc} Comp op can be performed only for the same type.")
                     return None;
                 return lt
 
@@ -90,7 +95,7 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if rt != lt != 'string':
-                    self.errs.append("Concat can be performed only on strings.")
+                    self.errs.append(f"{ex.loc} Concat can be performed only on strings.")
                     return None;
                 return lt
 
@@ -98,18 +103,18 @@ class Checker():
                 lt = self.check_expr(ex.left)
                 rt = self.check_expr(ex.right)
                 if rt != lt != 'bool':
-                    self.errs.append("Concat can be performed only on bools.")
+                    self.errs.append(f"{ex.loc} Concat can be performed only on bools.")
                     return None
                 return lt
 
             case expr.Assign():
                 if ex.id not in self.vars:
-                    self.errs.append(f"Can't assign to var '{ex.id}' as it was never declared.")
+                    self.errs.append(f"{ex.loc} Can't assign to var '{ex.id}' as it was never declared.")
                     return None
                 lt = self.vars[ex.id]
                 rt = self.check_expr(ex.expr)
                 if not ( lt == 'float' and rt == 'int' ) and rt != lt:
-                    self.errs.append(f"Can't assign expr of type '{rt}' to var '{ex.id}' of type '{lt}'.")
+                    self.errs.append(f"{ex.loc} Can't assign expr of type '{rt}' to var '{ex.id}' of type '{lt}'.")
                     return None
                 return lt
 
@@ -119,7 +124,7 @@ class Checker():
 
             case expr.Var():
                 if ex.id not in self.vars:
-                    self.errs.append(f"Var '{ex.id}' wasn't declared yet.")
+                    self.errs.append(f"{ex.loc} Var '{ex.id}' wasn't declared yet.")
                     return None
                 return self.vars[ex.id]
 

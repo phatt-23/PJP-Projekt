@@ -27,8 +27,8 @@ print(input_text)
 print()
 
 lexer = PJPLexer(antlr4.InputStream(input_text))
-stream = antlr4.CommonTokenStream(lexer)
-parser = PJPParser(stream)
+tok_stream = antlr4.CommonTokenStream(lexer)
+parser = PJPParser(tok_stream)
 
 tree = parser.prog()
 
@@ -36,7 +36,7 @@ print("PARSED INPUT:")
 print(tree.toStringTree(recog=parser))
 print()
 
-trans = Transformer()  
+trans = Transformer(tok_stream)  
 
 ast = trans.visit(tree)
 

@@ -1,0 +1,21 @@
+int a;
+a = 20;
+
+write a;
+
+a = 1 + 2.0;
+
+string b;
+b = "ahoj";
+
+            b = b + 20;
+
+string b;
+
+if (1 + 20) {
+    write "valid";
+} else {
+    write "invalid";
+}
+
+        undeclared = "nevim"
