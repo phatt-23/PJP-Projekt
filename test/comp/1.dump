@@ -5,31 +5,3 @@ write a, 3 + 4;
 
 
 
-PARSED INPUT:
-(prog (stmt int a ;) (stmt (expr a = (expr 23)) ;) (stmt write (expr a) , (expr (expr 3) + (expr 4)) ;) <EOF>)
-
-AST:
-[Decl(type='int', ids=['a']),
- ExprStmt(expr=Assign(id='a', expr=Lit(val=23))),
- Write(exprs=[Var(id='a'), Ari(op='+', left=Lit(val=3), right=Lit(val=4))])]
-
-TYPE CHECK:
-
-
-GENERATED:
-; decl
-push I 0
-save a
-; expr stmt
-push I 23
-save a
-load a
-pop
-; write
-load a
-push I 3
-push I 4
-add I
-print 2
-
-

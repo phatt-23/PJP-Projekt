@@ -1,5 +1,3 @@
-line 7:0 missing ';' at 'a'
-line 12:0 missing ';' at '12'
 INPUT:
 int a;
 float a;
@@ -16,47 +14,4 @@ c = "ahoj" . b
 (12 + 34 + 45 * 56 -  43 / 43) + ("ahoj" . "svete");
 
 
-
-PARSED INPUT:
-(prog (stmt int a ;) (stmt float a ;) (stmt (expr (expr 1) . (expr "ahoj")) ;) (stmt string b ;) (stmt (expr b = (expr "svete")) <missing ';'>) (stmt (expr (expr a) + (expr b)) ;) (stmt string c ;) (stmt (expr c = (expr (expr "ahoj") . (expr b))) <missing ';'>) (stmt (expr (expr 12) + (expr ( (expr (expr "ahoj") . (expr "svete")) ))) ;) (stmt (expr (expr ( (expr (expr (expr 12) + (expr 34)) + (expr (expr (expr 45) * (expr 56)) - (expr (expr 43) / (expr 43)))) )) + (expr ( (expr (expr "ahoj") . (expr "svete")) ))) ;) <EOF>)
-
-AST:
-[Decl(type='int', ids=['a']),
- Decl(type='float', ids=['a']),
- ExprStmt(expr=Concat(op='.', left=Lit(val=1), right=Lit(val='"ahoj"'))),
- Decl(type='string', ids=['b']),
- ExprStmt(expr=Assign(id='b', expr=Lit(val='"svete"'))),
- ExprStmt(expr=Ari(op='+', left=Var(id='a'), right=Var(id='b'))),
- Decl(type='string', ids=['c']),
- ExprStmt(expr=Assign(id='c',
-                      expr=Concat(op='.',
-                                  left=Lit(val='"ahoj"'),
-                                  right=Var(id='b')))),
- ExprStmt(expr=Ari(op='+',
-                   left=Lit(val=12),
-                   right=Grp(expr=Concat(op='.',
-                                         left=Lit(val='"ahoj"'),
-                                         right=Lit(val='"svete"'))))),
- ExprStmt(expr=Ari(op='+',
-                   left=Grp(expr=Ari(op='+',
-                                     left=Ari(op='+',
-                                              left=Lit(val=12),
-                                              right=Lit(val=34)),
-                                     right=Ari(op='-',
-                                               left=Ari(op='*',
-                                                        left=Lit(val=45),
-                                                        right=Lit(val=56)),
-                                               right=Ari(op='/',
-                                                         left=Lit(val=43),
-                                                         right=Lit(val=43))))),
-                   right=Grp(expr=Concat(op='.',
-                                         left=Lit(val='"ahoj"'),
-                                         right=Lit(val='"svete"')))))]
-
-TYPE CHECK:
-[2:0] Var 'a' is already declared at [1:0]
-[3:0] Concat can be performed only on strings. Here int x string
-[7:0] Arithmetic op can only be performed on numbers. Here int x string
-[12:0] Arithmetic op can only be performed on numbers. Here int x string
-[13:0] Arithmetic op can only be performed on numbers. Here int x string
 
