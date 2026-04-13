@@ -199,12 +199,12 @@ y (10.0): 10
 i=j=k=55: 55=55=55
 <Input - a(int),b(float),c(string),d(bool)>
 #READ I#
-#GOT '3'#
+#GOT '69'#
 #READ F#
-#GOT ''#
+#GOT '42.0'#
 #READ S#
-#GOT ''#
+#GOT '"Ahoj, PJP!"'#
 #READ B#
-#GOT ''#
-a,b,c,e: 3,0.0,,False
+#GOT 'true'#
+a,b,c,e: 69,42.0,Ahoj, PJP!,True
 #END#

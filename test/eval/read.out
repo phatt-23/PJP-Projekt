@@ -1,0 +1,38 @@
+#EVALING#
+[(0, 'push I 0'),
+ (1, 'save i'),
+ (2, 'push F 0.0'),
+ (3, 'save f'),
+ (4, 'push S'),
+ (5, 'save s'),
+ (6, 'push B False'),
+ (7, 'save b'),
+ (8, 'read I'),
+ (9, 'save i'),
+ (10, 'read F'),
+ (11, 'save f'),
+ (12, 'read S'),
+ (13, 'save s'),
+ (14, 'read B'),
+ (15, 'save b'),
+ (16, 'push S "i = "'),
+ (17, 'load i'),
+ (18, 'push S ", f = "'),
+ (19, 'load f'),
+ (20, 'push S ", s = "'),
+ (21, 'load s'),
+ (22, 'push S ", b = "'),
+ (23, 'load b'),
+ (24, 'print 8')]
+PRINT INDICES:
+{}
+#READ I#
+#GOT '2'#
+#READ F#
+#GOT '3.0'#
+#READ S#
+#GOT 'ahoj'#
+#READ B#
+#GOT 'true'#
+i = 2, f = 3.0, s = ahoj, b = True
+#END#

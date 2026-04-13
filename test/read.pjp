@@ -1,0 +1,9 @@
+int i;
+float f;
+string s;
+bool b;
+
+read i, f, s, b;
+
+write "i = " .. i .. ", f = " .. f .. ", s = " .. s .. ", b = " .. b;
+

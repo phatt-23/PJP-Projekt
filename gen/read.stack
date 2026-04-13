@@ -1,0 +1,31 @@
+; decl
+push I 0
+save i
+; decl
+push F 0.0
+save f
+; decl
+push S 
+save s
+; decl
+push B False
+save b
+; read
+read I
+save i
+read F
+save f
+read S
+save s
+read B
+save b
+; write
+push S "i = "
+load i
+push S ", f = "
+load f
+push S ", s = "
+load s
+push S ", b = "
+load b
+print 8

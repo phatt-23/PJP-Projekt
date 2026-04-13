@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 from os import write
 from pprint import pprint
 import sys
