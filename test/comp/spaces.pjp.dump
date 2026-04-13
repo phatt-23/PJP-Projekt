@@ -1,0 +1,42 @@
+INPUT:
+12<34;
+12 <34;
+12< 34;
+12 < 34;
+
+
+PARSED INPUT:
+(prog (stmt (expr (expr 12) < (expr 34)) ;) (stmt (expr (expr 12) < (expr 34)) ;) (stmt (expr (expr 12) < (expr 34)) ;) (stmt (expr (expr 12) < (expr 34)) ;) <EOF>)
+
+AST:
+[ExprStmt(expr=Rel(op='<', left=Lit(val=12), right=Lit(val=34))),
+ ExprStmt(expr=Rel(op='<', left=Lit(val=12), right=Lit(val=34))),
+ ExprStmt(expr=Rel(op='<', left=Lit(val=12), right=Lit(val=34))),
+ ExprStmt(expr=Rel(op='<', left=Lit(val=12), right=Lit(val=34)))]
+
+TYPE CHECK:
+
+
+GENERATED:
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+
+

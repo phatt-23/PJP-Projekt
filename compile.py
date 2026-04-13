@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 import sys
 from pprint import pprint
 
@@ -13,6 +15,8 @@ GEN_DIR = "./gen/"
 
 input_text = ""
 using_file = len(sys.argv) >= 2
+
+out_file = sys.argv[2] if len(sys.argv) >= 3 else None
 
 # get the input text from a file or stdin
 if using_file:
@@ -65,7 +69,8 @@ if using_file:
     file = sys.argv[1]
     start = max(file.rfind('/'), 0)
     end = file.rfind('.')
-    gen_file = GEN_DIR + file[start:end] + ".stack"
-    with open(gen_file, 'w+') as f:
+    if not out_file:
+        out_file = GEN_DIR + file[start:end] + ".stack"
+    with open(out_file, 'w+') as f:
         f.write(out)
 

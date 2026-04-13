@@ -1,0 +1,52 @@
+line 22:0 missing ';' at '<EOF>'
+INPUT:
+int a;
+a = 20;
+
+write a;
+
+a = 1 + 2.0;
+
+string b;
+b = "ahoj";
+
+            b = b + 20;
+
+string b;
+
+if (1 + 20) {
+    write "valid";
+} else {
+    write "invalid";
+}
+
+        undeclared = "nevim"
+
+
+PARSED INPUT:
+(prog (stmt int a ;) (stmt (expr a = (expr 20)) ;) (stmt write (expr a) ;) (stmt (expr a = (expr (expr 1) + (expr 2.0))) ;) (stmt string b ;) (stmt (expr b = (expr "ahoj")) ;) (stmt (expr b = (expr (expr b) + (expr 20))) ;) (stmt string b ;) (stmt if ( (expr (expr 1) + (expr 20)) ) (stmt { (stmt write (expr "valid") ;) }) else (stmt { (stmt write (expr "invalid") ;) })) (stmt (expr undeclared = (expr "nevim")) <missing ';'>) <EOF>)
+
+AST:
+[Decl(type='int', ids=['a']),
+ ExprStmt(expr=Assign(id='a', expr=Lit(val=20))),
+ Write(exprs=[Var(id='a')]),
+ ExprStmt(expr=Assign(id='a',
+                      expr=Ari(op='+', left=Lit(val=1), right=Lit(val=2.0)))),
+ Decl(type='string', ids=['b']),
+ ExprStmt(expr=Assign(id='b', expr=Lit(val='"ahoj"'))),
+ ExprStmt(expr=Assign(id='b',
+                      expr=Ari(op='+', left=Var(id='b'), right=Lit(val=20)))),
+ Decl(type='string', ids=['b']),
+ Cond(expr=Ari(op='+', left=Lit(val=1), right=Lit(val=20)),
+      then=Block(stmts=[Write(exprs=[Lit(val='"valid"')])]),
+      otherwise=Block(stmts=[Write(exprs=[Lit(val='"invalid"')])])),
+ ExprStmt(expr=Assign(id='undeclared', expr=Lit(val='"nevim"')))]
+
+TYPE CHECK:
+[6:0] Can't assign expr of type 'float' to var 'a' of type 'int'.
+[11:16] Arithmetic op can only be performed on numbers. Here string x int
+[11:12] Can't assign expr of type 'None' to var 'b' of type 'string'.
+[13:0] Var 'b' is already declared at [8:0]
+[15:4] Expected a boolean expression. Got int
+[21:8] Can't assign to var 'undeclared' as it was never declared.
+

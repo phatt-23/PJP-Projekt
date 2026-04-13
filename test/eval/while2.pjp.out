@@ -1,0 +1,131 @@
+#EVALING#
+[(0, 'push S "hello"'),
+ (1, 'push S ", "'),
+ (2, 'push S "world"'),
+ (3, 'print 3'),
+ (4, 'push I 0'),
+ (5, 'save c'),
+ (6, 'push I 10'),
+ (7, 'save c'),
+ (8, 'load c'),
+ (9, 'pop'),
+ (10, 'load c'),
+ (11, 'print 1'),
+ (12, 'push I 0'),
+ (13, 'save i'),
+ (14, 'push I 0'),
+ (15, 'save j'),
+ (16, 'push I 0'),
+ (17, 'save i'),
+ (18, 'load i'),
+ (19, 'pop'),
+ (20, 'label 0'),
+ (21, 'load i'),
+ (22, 'load c'),
+ (23, 'lt I'),
+ (24, 'fjmp 1'),
+ (25, 'push I 0'),
+ (26, 'save j'),
+ (27, 'load j'),
+ (28, 'pop'),
+ (29, 'label 2'),
+ (30, 'load j'),
+ (31, 'load i'),
+ (32, 'lt I'),
+ (33, 'fjmp 3'),
+ (34, 'load j'),
+ (35, 'push I 2'),
+ (36, 'mod'),
+ (37, 'push I 0'),
+ (38, 'eq I'),
+ (39, 'fjmp 4'),
+ (40, 'push S "  "'),
+ (41, 'push S "j := "'),
+ (42, 'load j'),
+ (43, 'print 3'),
+ (44, 'jmp 5'),
+ (45, 'label 4'),
+ (46, 'push S "    "'),
+ (47, 'push S "j = "'),
+ (48, 'load j'),
+ (49, 'print 3'),
+ (50, 'label 5'),
+ (51, 'load j'),
+ (52, 'push I 1'),
+ (53, 'add I'),
+ (54, 'save j'),
+ (55, 'load j'),
+ (56, 'pop'),
+ (57, 'jmp 2'),
+ (58, 'label 3'),
+ (59, "push S 'i = '"),
+ (60, 'load i'),
+ (61, 'print 2'),
+ (62, 'load i'),
+ (63, 'push I 1'),
+ (64, 'add I'),
+ (65, 'save i'),
+ (66, 'load i'),
+ (67, 'pop'),
+ (68, 'jmp 0'),
+ (69, 'label 1')]
+PRINT INDICES:
+{0: 20, 1: 69, 2: 29, 3: 58, 4: 45, 5: 50}
+hello, world
+10
+i = 0
+  j := 0
+i = 1
+  j := 0
+    j = 1
+i = 2
+  j := 0
+    j = 1
+  j := 2
+i = 3
+  j := 0
+    j = 1
+  j := 2
+    j = 3
+i = 4
+  j := 0
+    j = 1
+  j := 2
+    j = 3
+  j := 4
+i = 5
+  j := 0
+    j = 1
+  j := 2
+    j = 3
+  j := 4
+    j = 5
+i = 6
+  j := 0
+    j = 1
+  j := 2
+    j = 3
+  j := 4
+    j = 5
+  j := 6
+i = 7
+  j := 0
+    j = 1
+  j := 2
+    j = 3
+  j := 4
+    j = 5
+  j := 6
+    j = 7
+i = 8
+  j := 0
+    j = 1
+  j := 2
+    j = 3
+  j := 4
+    j = 5
+  j := 6
+    j = 7
+  j := 8
+i = 9
+#END#

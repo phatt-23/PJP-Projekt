@@ -1,0 +1,16 @@
+#EVALING#
+[(0, 'push I 0'),
+ (1, 'save a'),
+ (2, 'push I 23'),
+ (3, 'save a'),
+ (4, 'load a'),
+ (5, 'pop'),
+ (6, 'load a'),
+ (7, 'push I 3'),
+ (8, 'push I 4'),
+ (9, 'add I'),
+ (10, 'print 2')]
+PRINT INDICES:
+{}
+237
+#END#

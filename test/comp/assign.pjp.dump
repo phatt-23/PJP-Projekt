@@ -1,0 +1,60 @@
+INPUT:
+string a;
+a = "ahoj";
+
+string b;
+b = a . "svete";
+
+string c;
+
+c = a = b;
+
+
+PARSED INPUT:
+(prog (stmt string a ;) (stmt (expr a = (expr "ahoj")) ;) (stmt string b ;) (stmt (expr b = (expr (expr a) . (expr "svete"))) ;) (stmt string c ;) (stmt (expr c = (expr a = (expr b))) ;) <EOF>)
+
+AST:
+[Decl(type='string', ids=['a']),
+ ExprStmt(expr=Assign(id='a', expr=Lit(val='"ahoj"'))),
+ Decl(type='string', ids=['b']),
+ ExprStmt(expr=Assign(id='b',
+                      expr=Concat(op='.',
+                                  left=Var(id='a'),
+                                  right=Lit(val='"svete"')))),
+ Decl(type='string', ids=['c']),
+ ExprStmt(expr=Assign(id='c', expr=Assign(id='a', expr=Var(id='b'))))]
+
+TYPE CHECK:
+
+
+GENERATED:
+; decl
+push S 
+save a
+; expr stmt
+push S "ahoj"
+save a
+load a
+pop
+; decl
+push S 
+save b
+; expr stmt
+load a
+push S "svete"
+cat
+save b
+load b
+pop
+; decl
+push S 
+save c
+; expr stmt
+load b
+save a
+load a
+save c
+load c
+pop
+
+

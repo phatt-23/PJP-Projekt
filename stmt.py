@@ -30,7 +30,7 @@ class Read(Stmt):
     ids: list[str]
     def __init__(self, ids, loc=None) -> None:
         super().__init__(loc)
-        self.ids
+        self.ids = ids
 
 @dataclass
 class Write(Stmt):
@@ -61,7 +61,7 @@ class Cycle(Stmt):
     body: Stmt
     def __init__(self, expr, body, loc=None) -> None:
         super().__init__(loc)
-        self.expr = epxr
+        self.expr = expr
         self.body = body
 
 

@@ -1,0 +1,60 @@
+INPUT:
+if (3<4) write "condition was true";
+else write "condition was false";
+
+if (true) {
+	write "inside";
+	write "second";
+	write "if";
+}
+
+
+PARSED INPUT:
+(prog (stmt if ( (expr (expr 3) < (expr 4)) ) (stmt write (expr "condition was true") ;) else (stmt write (expr "condition was false") ;)) (stmt if ( (expr true) ) (stmt { (stmt write (expr "inside") ;) (stmt write (expr "second") ;) (stmt write (expr "if") ;) })) <EOF>)
+
+AST:
+[Cond(expr=Rel(op='<', left=Lit(val=3), right=Lit(val=4)),
+      then=Write(exprs=[Lit(val='"condition was true"')]),
+      otherwise=Write(exprs=[Lit(val='"condition was false"')])),
+ Cond(expr=Lit(val=True),
+      then=Block(stmts=[Write(exprs=[Lit(val='"inside"')]),
+                        Write(exprs=[Lit(val='"second"')]),
+                        Write(exprs=[Lit(val='"if"')])]),
+      otherwise=None)]
+
+TYPE CHECK:
+
+
+GENERATED:
+; cond
+push I 3
+push I 4
+lt I
+fjmp 0
+	; write
+	push S "condition was true"
+	print 1
+jmp 1
+label 0
+	; write
+	push S "condition was false"
+	print 1
+label 1
+; cond
+push B True
+fjmp 2
+	; block
+		; write
+		push S "inside"
+		print 1
+		; write
+		push S "second"
+		print 1
+		; write
+		push S "if"
+		print 1
+jmp 3
+label 2
+label 3
+
+

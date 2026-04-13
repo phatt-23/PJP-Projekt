@@ -1,0 +1,26 @@
+#EVALING#
+[(0, 'push S'),
+ (1, 'save a'),
+ (2, 'push S "ahoj"'),
+ (3, 'save a'),
+ (4, 'load a'),
+ (5, 'pop'),
+ (6, 'push S'),
+ (7, 'save b'),
+ (8, 'load a'),
+ (9, 'push S "svete"'),
+ (10, 'cat'),
+ (11, 'save b'),
+ (12, 'load b'),
+ (13, 'pop'),
+ (14, 'push S'),
+ (15, 'save c'),
+ (16, 'load b'),
+ (17, 'save a'),
+ (18, 'load a'),
+ (19, 'save c'),
+ (20, 'load c'),
+ (21, 'pop')]
+PRINT INDICES:
+{}
+#END#

@@ -1,0 +1,20 @@
+#EVALING#
+[(0, 'push I 12'),
+ (1, 'push I 34'),
+ (2, 'lt I'),
+ (3, 'pop'),
+ (4, 'push I 12'),
+ (5, 'push I 34'),
+ (6, 'lt I'),
+ (7, 'pop'),
+ (8, 'push I 12'),
+ (9, 'push I 34'),
+ (10, 'lt I'),
+ (11, 'pop'),
+ (12, 'push I 12'),
+ (13, 'push I 34'),
+ (14, 'lt I'),
+ (15, 'pop')]
+PRINT INDICES:
+{}
+#END#

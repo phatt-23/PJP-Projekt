@@ -1,0 +1,28 @@
+; decl
+push S 
+save a
+; expr stmt
+push S "ahoj"
+save a
+load a
+pop
+; decl
+push S 
+save b
+; expr stmt
+load a
+push S "svete"
+cat
+save b
+load b
+pop
+; decl
+push S 
+save c
+; expr stmt
+load b
+save a
+load a
+save c
+load c
+pop

@@ -1,7 +1,4 @@
-
-
 from dataclasses import dataclass
-
 
 class Loc():
     line: int | None 

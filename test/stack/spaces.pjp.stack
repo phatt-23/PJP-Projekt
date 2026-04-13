@@ -1,0 +1,20 @@
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+; expr stmt
+push I 12
+push I 34
+lt I
+pop
+; expr stmt
+push I 12
+push I 34
+lt I
+pop

@@ -1,0 +1,149 @@
+INPUT:
+if (3<4) write "condition was true";
+else write "condition was false";
+
+if (true) {
+	write "inside";
+	write "second";
+	write "if";
+}
+
+int a,b;
+
+while(a<10) {
+ write "a=",a;
+ a=a+1;
+}
+
+a=0;
+
+read b;
+
+while(a<b) {
+ write "a=",a,", b=",b;
+ a=a+1;
+}
+
+
+PARSED INPUT:
+(prog (stmt if ( (expr (expr 3) < (expr 4)) ) (stmt write (expr "condition was true") ;) else (stmt write (expr "condition was false") ;)) (stmt if ( (expr true) ) (stmt { (stmt write (expr "inside") ;) (stmt write (expr "second") ;) (stmt write (expr "if") ;) })) (stmt int a , b ;) (stmt while ( (expr (expr a) < (expr 10)) ) (stmt { (stmt write (expr "a=") , (expr a) ;) (stmt (expr a = (expr (expr a) + (expr 1))) ;) })) (stmt (expr a = (expr 0)) ;) (stmt read b ;) (stmt while ( (expr (expr a) < (expr b)) ) (stmt { (stmt write (expr "a=") , (expr a) , (expr ", b=") , (expr b) ;) (stmt (expr a = (expr (expr a) + (expr 1))) ;) })) <EOF>)
+
+AST:
+[Cond(expr=Rel(op='<', left=Lit(val=3), right=Lit(val=4)),
+      then=Write(exprs=[Lit(val='"condition was true"')]),
+      otherwise=Write(exprs=[Lit(val='"condition was false"')])),
+ Cond(expr=Lit(val=True),
+      then=Block(stmts=[Write(exprs=[Lit(val='"inside"')]),
+                        Write(exprs=[Lit(val='"second"')]),
+                        Write(exprs=[Lit(val='"if"')])]),
+      otherwise=None),
+ Decl(type='int', ids=['a', 'b']),
+ Cycle(expr=Rel(op='<', left=Var(id='a'), right=Lit(val=10)),
+       body=Block(stmts=[Write(exprs=[Lit(val='"a="'), Var(id='a')]),
+                         ExprStmt(expr=Assign(id='a',
+                                              expr=Ari(op='+',
+                                                       left=Var(id='a'),
+                                                       right=Lit(val=1))))])),
+ ExprStmt(expr=Assign(id='a', expr=Lit(val=0))),
+ Read(ids=['b']),
+ Cycle(expr=Rel(op='<', left=Var(id='a'), right=Var(id='b')),
+       body=Block(stmts=[Write(exprs=[Lit(val='"a="'),
+                                      Var(id='a'),
+                                      Lit(val='", b="'),
+                                      Var(id='b')]),
+                         ExprStmt(expr=Assign(id='a',
+                                              expr=Ari(op='+',
+                                                       left=Var(id='a'),
+                                                       right=Lit(val=1))))]))]
+
+TYPE CHECK:
+
+
+GENERATED:
+; cond
+push I 3
+push I 4
+lt I
+fjmp 0
+	; write
+	push S "condition was true"
+	print 1
+jmp 1
+label 0
+	; write
+	push S "condition was false"
+	print 1
+label 1
+; cond
+push B True
+fjmp 2
+	; block
+		; write
+		push S "inside"
+		print 1
+		; write
+		push S "second"
+		print 1
+		; write
+		push S "if"
+		print 1
+jmp 3
+label 2
+label 3
+; decl
+push I 0
+save a
+push I 0
+save b
+; cycle
+label 4
+load a
+push I 10
+lt I
+fjmp 5
+	; block
+		; write
+		push S "a="
+		load a
+		print 2
+		; expr stmt
+		load a
+		push I 1
+		add I
+		save a
+		load a
+		pop
+jmp 4
+label 5
+; expr stmt
+push I 0
+save a
+load a
+pop
+; read
+read I
+save b
+; cycle
+label 6
+load a
+load b
+lt I
+fjmp 7
+	; block
+		; write
+		push S "a="
+		load a
+		push S ", b="
+		load b
+		print 4
+		; expr stmt
+		load a
+		push I 1
+		add I
+		save a
+		load a
+		pop
+jmp 6
+label 7
+
+

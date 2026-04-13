@@ -1,0 +1,60 @@
+#EVALING#
+[(0, 'push I 0'),
+ (1, 'save a'),
+ (2, 'push I 0'),
+ (3, 'save b'),
+ (4, 'label 0'),
+ (5, 'load a'),
+ (6, 'push I 10'),
+ (7, 'lt I'),
+ (8, 'fjmp 1'),
+ (9, 'push S "a="'),
+ (10, 'load a'),
+ (11, 'print 2'),
+ (12, 'load a'),
+ (13, 'push I 1'),
+ (14, 'add I'),
+ (15, 'save a'),
+ (16, 'load a'),
+ (17, 'pop'),
+ (18, 'jmp 0'),
+ (19, 'label 1'),
+ (20, 'push I 0'),
+ (21, 'save a'),
+ (22, 'load a'),
+ (23, 'pop'),
+ (24, 'read I'),
+ (25, 'save b'),
+ (26, 'label 2'),
+ (27, 'load a'),
+ (28, 'load b'),
+ (29, 'lt I'),
+ (30, 'fjmp 3'),
+ (31, 'push S "a="'),
+ (32, 'load a'),
+ (33, 'push S ", b="'),
+ (34, 'load b'),
+ (35, 'print 4'),
+ (36, 'load a'),
+ (37, 'push I 1'),
+ (38, 'add I'),
+ (39, 'save a'),
+ (40, 'load a'),
+ (41, 'pop'),
+ (42, 'jmp 2'),
+ (43, 'label 3')]
+PRINT INDICES:
+{0: 4, 1: 19, 2: 26, 3: 43}
+a=0
+a=1
+a=2
+a=3
+a=4
+a=5
+a=6
+a=7
+a=8
+a=9
+#READ I#
+#GOT ''#
+#END#

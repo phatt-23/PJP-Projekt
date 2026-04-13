@@ -81,7 +81,7 @@ class Checker():
                 if lt not in allowed or rt not in allowed :
                     self.errs.append(f"{ex.loc} Rel op can only be performed on numbers and strings. Here {lt} x {rt}")
                     return None
-                return lt
+                return 'bool'
 
             case expr.Comp():
                 lt = self.check_expr(ex.left)
@@ -89,7 +89,7 @@ class Checker():
                 if lt != rt:
                     self.errs.append(f"{ex.loc} Comp op can be performed only for the same type. Here {lt} x {rt}")
                     return None;
-                return lt
+                return 'bool'
 
             case expr.Concat():
                 lt = self.check_expr(ex.left)

@@ -1,0 +1,86 @@
+#EVALING#
+[(0, 'push I 3'),
+ (1, 'push I 4'),
+ (2, 'lt I'),
+ (3, 'fjmp 0'),
+ (4, 'push S "condition was true"'),
+ (5, 'print 1'),
+ (6, 'jmp 1'),
+ (7, 'label 0'),
+ (8, 'push S "condition was false"'),
+ (9, 'print 1'),
+ (10, 'label 1'),
+ (11, 'push B True'),
+ (12, 'fjmp 2'),
+ (13, 'push S "inside"'),
+ (14, 'print 1'),
+ (15, 'push S "second"'),
+ (16, 'print 1'),
+ (17, 'push S "if"'),
+ (18, 'print 1'),
+ (19, 'jmp 3'),
+ (20, 'label 2'),
+ (21, 'label 3'),
+ (22, 'push I 0'),
+ (23, 'save a'),
+ (24, 'push I 0'),
+ (25, 'save b'),
+ (26, 'label 4'),
+ (27, 'load a'),
+ (28, 'push I 10'),
+ (29, 'lt I'),
+ (30, 'fjmp 5'),
+ (31, 'push S "a="'),
+ (32, 'load a'),
+ (33, 'print 2'),
+ (34, 'load a'),
+ (35, 'push I 1'),
+ (36, 'add I'),
+ (37, 'save a'),
+ (38, 'load a'),
+ (39, 'pop'),
+ (40, 'jmp 4'),
+ (41, 'label 5'),
+ (42, 'push I 0'),
+ (43, 'save a'),
+ (44, 'load a'),
+ (45, 'pop'),
+ (46, 'read I'),
+ (47, 'save b'),
+ (48, 'label 6'),
+ (49, 'load a'),
+ (50, 'load b'),
+ (51, 'lt I'),
+ (52, 'fjmp 7'),
+ (53, 'push S "a="'),
+ (54, 'load a'),
+ (55, 'push S ", b="'),
+ (56, 'load b'),
+ (57, 'print 4'),
+ (58, 'load a'),
+ (59, 'push I 1'),
+ (60, 'add I'),
+ (61, 'save a'),
+ (62, 'load a'),
+ (63, 'pop'),
+ (64, 'jmp 6'),
+ (65, 'label 7')]
+PRINT INDICES:
+{0: 7, 1: 10, 2: 20, 3: 21, 4: 26, 5: 41, 6: 48, 7: 65}
+condition was true
+inside
+second
+if
+a=0
+a=1
+a=2
+a=3
+a=4
+a=5
+a=6
+a=7
+a=8
+a=9
+#READ I#
+#GOT ''#
+#END#

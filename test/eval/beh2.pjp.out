@@ -1,0 +1,71 @@
+#EVALING#
+[(0, 'push S "<Relational operators>"'),
+ (1, 'print 1'),
+ (2, 'push S "1<5: "'),
+ (3, 'push I 1'),
+ (4, 'push I 5'),
+ (5, 'lt I'),
+ (6, 'print 2'),
+ (7, 'push S "1>3.5: "'),
+ (8, 'push I 1'),
+ (9, 'push F 3.5'),
+ (10, 'gt F'),
+ (11, 'print 2'),
+ (12, 'push S "aa==aa: "'),
+ (13, 'push S "aa"'),
+ (14, 'push S "aa"'),
+ (15, 'eq S'),
+ (16, 'print 2'),
+ (17, 'push S "aa==ab: "'),
+ (18, 'push S "aa"'),
+ (19, 'push S "ab"'),
+ (20, 'eq S'),
+ (21, 'print 2'),
+ (22, 'push S "aa!=ab: "'),
+ (23, 'push S "aa"'),
+ (24, 'push S "ab"'),
+ (25, 'eq S'),
+ (26, 'not'),
+ (27, 'print 2'),
+ (28, 'push S ""'),
+ (29, 'print 1'),
+ (30, 'push S "<Logic operators>"'),
+ (31, 'print 1'),
+ (32, 'push S "false and true (false):"'),
+ (33, 'push B False'),
+ (34, 'push B True'),
+ (35, 'and'),
+ (36, 'print 2'),
+ (37, 'push S "false or true (true):"'),
+ (38, 'push B False'),
+ (39, 'push B True'),
+ (40, 'or'),
+ (41, 'print 2'),
+ (42, 'push S "not 1==2 (true):"'),
+ (43, 'push I 1'),
+ (44, 'push I 2'),
+ (45, 'eq I'),
+ (46, 'not'),
+ (47, 'print 2'),
+ (48, 'push S "true or false and true (true):"'),
+ (49, 'push B True'),
+ (50, 'push B False'),
+ (51, 'push B True'),
+ (52, 'and'),
+ (53, 'or'),
+ (54, 'print 2')]
+PRINT INDICES:
+{}
+<Relational operators>
+1<5: True
+1>3.5: False
+aa==aa: True
+aa==ab: False
+aa!=ab: True
+
+<Logic operators>
+false and true (false):True
+false or true (true):True
+not 1==2 (true):True
+true or false and true (true):True
+#END#

@@ -1,0 +1,14 @@
+; decl
+push I 0
+save a
+; expr stmt
+push I 23
+save a
+load a
+pop
+; write
+load a
+push I 3
+push I 4
+add I
+print 2
