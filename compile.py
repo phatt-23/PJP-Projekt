@@ -87,14 +87,21 @@ print(flush=True)
 
 # type check
 
-checker = Checker()
-errors = checker.type_check(ast)
+checker = Checker(ast)
+errors = checker.type_check()
 
 print("TYPE CHECK:")
-print("\n".join(errors), end="\n\n", flush=True)
 
 if len(errors) != 0:
+    print("\n".join(errors), end="\n\n", flush=True)
     sys.exit()
+else:
+    print("All OK", end="\n\n")
+
+if checker.changed_prog:
+    print("AST CHANGED:")
+    pprint(ast)
+    print(flush=True)
 
 
 # generate the stack code

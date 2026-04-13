@@ -1,0 +1,7 @@
+int a;
+a = 100;
+
+float b; 
+b = 0.123;
+
+write a + b;

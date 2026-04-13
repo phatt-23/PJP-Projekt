@@ -186,6 +186,10 @@ class Generator:
     def gen_expr(self, expr: Expr):
 
         match expr:
+            case Itof():
+                self.gen_expr(expr.expr)
+                self.write(f'itof')
+
             case Grp():
                 self.gen_expr(expr.expr)
 

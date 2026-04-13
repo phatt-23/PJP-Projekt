@@ -1,0 +1,22 @@
+; decl
+push I 0
+save a
+; expr stmt
+push I 100
+save a
+load a
+pop
+; decl
+push F 0.0
+save b
+; expr stmt
+push F 0.123
+save b
+load b
+pop
+; write
+load a
+itof
+load b
+add F
+print 1

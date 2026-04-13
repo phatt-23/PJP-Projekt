@@ -13,9 +13,18 @@ class Checker():
     var_decl_loc: dict[str, Loc] = {}
     errs = []
 
-    def type_check(self, prog: list[Stmt]):
-        for st in prog:
+    prog: list[Stmt]
+    changed_prog = False
+
+    def __init__(self, prog):
+        self.prog = prog
+        self.iter = 0
+
+    def type_check(self):
+        while self.iter < len(self.prog):
+            st = self.prog[self.iter]
             self.check_stmt(st)
+            self.iter += 1
 
         return self.errs
 
@@ -60,6 +69,10 @@ class Checker():
 
     def check_expr(self, ex: expr.Expr) -> expr.Type:
         match ex:
+            case expr.Itof():
+                self.check_expr(ex.expr)
+                return 'float'
+
             case expr.Grp():
                 return self.check_expr(ex.expr)
 
@@ -72,6 +85,15 @@ class Checker():
                 if not is_num_type(lt) or not is_num_type(rt):
                     self.errs.append(f"{ex.loc} Arithmetic op can only be performed on numbers. Here {lt} x {rt}")
                     return None
+                if lt == 'float' and rt != 'float':
+                    ex.right = expr.Itof(ex.right)
+                    self.changed_prog = True
+                    return 'float'
+                if lt != 'float' and rt == 'float':
+                    ex.left = expr.Itof(ex.left)
+                    self.changed_prog = True
+                    return 'float'
+
                 return 'float' if lt == 'float' or rt == 'float' else 'int'
 
             case expr.Rel():

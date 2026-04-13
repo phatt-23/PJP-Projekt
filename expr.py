@@ -107,3 +107,11 @@ class Var(Expr):
         super().__init__(loc)
         self.id = id
 
+@dataclass
+class Itof(Expr):
+    # conversion from int to float
+    expr: Expr
+    def __init__(self, expr, loc=None):
+        super().__init__(loc)
+        self.expr = expr
+        self.type = 'float'

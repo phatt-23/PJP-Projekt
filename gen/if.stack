@@ -1,0 +1,30 @@
+; cond
+push I 3
+push I 4
+lt I
+fjmp 0
+	; write
+	push S "condition was true"
+	print 1
+jmp 1
+label 0
+	; write
+	push S "condition was false"
+	print 1
+label 1
+; cond
+push B True
+fjmp 2
+	; block
+		; write
+		push S "inside"
+		print 1
+		; write
+		push S "second"
+		print 1
+		; write
+		push S "if"
+		print 1
+jmp 3
+label 2
+label 3
